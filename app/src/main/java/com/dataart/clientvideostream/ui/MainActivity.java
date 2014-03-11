@@ -2,6 +2,7 @@ package com.dataart.clientvideostream.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.VideoView;
 
+import com.dataart.clientvideostream.player.DefaultPlayerController;
 import com.dataart.clientvideostream.player.IPlayerController;
 import com.dataart.clientvideostream.R;
 import com.dataart.clientvideostream.player.PlayerFactory;
@@ -38,12 +41,25 @@ public class MainActivity extends Activity {
             player.stopPlay();
             btn.setText(R.string.play);
         } else {
+            ((DefaultPlayerController)player).setUri(getVideoUri());
+            ((DefaultPlayerController)player).setvView(getVideoView());
             player.startPlay();
             btn.setText(R.string.stop);
+
         }
     }
 
+    protected Uri getVideoUri() {
+        String strUri = "http://www.pocketjourney.com/downloads/pj/video/famous.3gp"; //it works
+        //String strUri = "android.resource://" + getPackageName() + "/" + R.raw.famous; //it works
+        Log.d(TAG, "strUri: " + strUri);
+        Uri uri = Uri.parse(strUri);
+        return uri;
+    }
 
+    protected VideoView getVideoView() {
+        return (VideoView) findViewById(R.id.videoView);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
